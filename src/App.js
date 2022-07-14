@@ -6,14 +6,14 @@ const App = () =>  {
   const [isChecked, setIsChecked] = useState({options: []})
 
 //Imorte total del presupuesto
-let [totalBudget, setTotalBudget] = useState(0);
+const [totalBudget, setTotalBudget] = useState(0);
 
 //OPCIÓN WEB  
   //RENDERIZADO CONCIDIONAL para mostrar opciones secundarias de página web
-  let [webPageOptions, setwebPageOptions] = useState(true); 
+  const [webPageOptions, setwebPageOptions] = useState(true); 
   //Array de opciones secundarias de web y contadores de páginas e idiomas
-  let [addPages, setAddPages] = useState({otherPages: []}); 
-  let [addLanguages, setAddLanguages] = useState({otherLanguages: []}); 
+  const [addPages, setAddPages] = useState({otherPages: []}); 
+  const [addLanguages, setAddLanguages] = useState({otherLanguages: []}); 
   const [qtyPages, setQtyPages] = useState(0);
   const [qtyLanguages, setQtyLanguages] = useState(0);
 
@@ -66,38 +66,38 @@ const handleChange = (event) => {
   case 'morePages':
     setQtyPages(parseInt(qtyPages) + 1);
     setAddPages({
-        otherPages: [...otherPages, {value: (qtyPages + 1)  * 30}]
+        otherPages: [...otherPages, {value: (qtyPages + 1)}]
       });
     break;
   case 'lessPages':
     setQtyPages(parseInt(qtyPages) > 0 ? parseInt(qtyPages) - 1: parseInt(qtyPages));
     setAddPages({
-      otherPages: [...otherPages, {value: ((qtyPages -1) > 0? (qtyPages -1) * 30: 0)}]
+      otherPages: [...otherPages, {value: ((qtyPages -1) > 0? (qtyPages -1) : 0)}]
     });
     break;
   case 'moreLanguages':
     setQtyLanguages(parseInt(qtyLanguages) + 1);
     setAddLanguages({
-      otherLanguages: [...otherLanguages, {value: (qtyLanguages + 1) * 30}]
+      otherLanguages: [...otherLanguages, {value: (qtyLanguages + 1)}]
       });
     break;
   case 'lessLanguages':
     setQtyLanguages(parseInt(qtyLanguages) > 0 ? parseInt(qtyLanguages) - 1: parseInt(qtyLanguages));
     setAddLanguages({
-      otherLanguages: [...otherLanguages, {value: ((qtyLanguages -1) > 0? (qtyLanguages -1) * 30: 0)}]
+      otherLanguages: [...otherLanguages, {value: ((qtyLanguages -1) > 0? (qtyLanguages -1) : 0)}]
       });
     break;
   //con texto escrito manualmente
   case 'qtyPages':
       setQtyPages(value);
       setAddPages({
-        otherPages: [...otherPages, {value: value*30}]
+        otherPages: [...otherPages, {value: value}]
       });
     break;
   case 'qtyLanguages':
     setQtyLanguages(value);
     setAddLanguages({
-      otherLanguages: [...otherLanguages, {value: value*30}]
+      otherLanguages: [...otherLanguages, {value: value}]
     });
     break;
     default: 
@@ -106,11 +106,13 @@ const handleChange = (event) => {
   const lastSelectedOtherPages = otherPages.slice(otherPages.length -1);
   const lastSelectedOtherLanguages = otherLanguages.slice(otherLanguages.length -1);
   
-  //Cálculo total: opciones principales y secundarias
+  //Cálculo total: opciones principales + secundarias
   const totalMain = options.map(option => option.value).reduce((prev, current)=> parseInt(prev) + parseInt(current), 0);
   const totalOtherPages = lastSelectedOtherPages.map(option => option.value).reduce((prev, current)=> prev + current, 0);
   const totalOtherLanguages = lastSelectedOtherLanguages.map(option => option.value).reduce((prev, current)=> prev + current, 0);
-  const budget = totalMain + totalOtherPages + totalOtherLanguages;
+  const totalOther = totalOtherPages * totalOtherLanguages * 30;
+  
+  const budget = totalMain + totalOther;
   
   setTotalBudget(budget);
   console.log(otherPages, lastSelectedOtherPages, 'last pages', otherLanguages, lastSelectedOtherLanguages, 'last languages');
