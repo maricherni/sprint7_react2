@@ -6,6 +6,7 @@ export const Panell = styled.div `
     border: solid 0.2rem black;
     border-radius: 10px;
     margin: 1rem 0 1rem 0;
+    
 `;
 
 export const Option = styled.div`
@@ -22,7 +23,7 @@ export const OptionsNumber = styled.div`
 `;
 
 export const Button = styled.button`
-    background-color: salmon;
+    background-color: orangered;
     border: none;
     border-radius: 10px;
     width: 2rem;

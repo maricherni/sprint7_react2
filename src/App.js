@@ -1,5 +1,22 @@
 import React, { useState} from "react";
-import {Panell, Option, Button, OptionsNumber} from "./Styled";
+import Budget from "./components/Budget";
+
+
+const App = () =>  {
+   
+
+return (
+<div>
+  <Budget/>
+
+</div>
+)
+}
+
+export default App;
+/* import React, { useState} from "react";
+import { useLocalStorage } from "./components/useLocalStorage";
+import {Panell, Option, OptionsNumber, Button} from './components/Styled'
 
 const App = () =>  {
 //Array de opciones principales: web, seo y ads
@@ -14,8 +31,8 @@ const [totalBudget, setTotalBudget] = useState(0);
   //Array de opciones secundarias de web y contadores de páginas e idiomas
   const [addPages, setAddPages] = useState({otherPages: []}); 
   const [addLanguages, setAddLanguages] = useState({otherLanguages: []}); 
-  const [qtyPages, setQtyPages] = useState(0);
-  const [qtyLanguages, setQtyLanguages] = useState(0);
+  const [qtyPages, setQtyPages] = useLocalStorage ('pages', '0');
+  const [qtyLanguages, setQtyLanguages] = useLocalStorage ('languages', '0');
 
   //OPCIÓN WEB seleccionada.
   const showWebOptions = (e) => {
@@ -33,8 +50,6 @@ const [totalBudget, setTotalBudget] = useState(0);
       setAddLanguages({
         otherLanguages: []
       })
-      setQtyPages(0)
-      setQtyLanguages(0)
     }
     handleChange(e);
   }
@@ -108,6 +123,7 @@ const handleChange = (event) => {
   
   //Cálculo total: opciones principales + secundarias
   const totalMain = options.map(option => option.value).reduce((prev, current)=> parseInt(prev) + parseInt(current), 0);
+
   const totalOtherPages = lastSelectedOtherPages.map(option => option.value).reduce((prev, current)=> prev + current, 0);
   const totalOtherLanguages = lastSelectedOtherLanguages.map(option => option.value).reduce((prev, current)=> prev + current, 0);
   const totalOther = totalOtherPages * totalOtherLanguages * 30;
@@ -209,3 +225,4 @@ return (
 }
 
 export default App;
+ */
