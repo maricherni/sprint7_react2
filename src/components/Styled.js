@@ -1,4 +1,11 @@
 import styled from "styled-components";
+import { createGlobalStyle } from "styled-components";
+
+export const GlobalStyle = createGlobalStyle` 
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+`;
 
 export const Panell = styled.div `
     width: max-content;

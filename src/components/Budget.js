@@ -1,24 +1,47 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import {Panell, Button, Option, OptionsNumber} from './Styled'
+import {Panell, Button, Option, OptionsNumber, GlobalStyle} from './Styled'
 
 
 function Budget () {
-    //Array de objetos con opciones principales: web, seo y ads
-    const [isChecked, setIsChecked] = useState({
+    //Array de objetos con opciones principales: web, seo y ads 
+        //Para que se mantenga el input del cliente al actualizar la pantalla hay que hacer getItem en LocalStorage (hago condicional para que salga a 0 por defecto o con el input en caso de que haya)
+    const [isChecked, setIsChecked] = useState(
+        localStorage.getItem('checked') 
+        ? JSON.parse(localStorage.getItem('checked'))
+        :{
             web: 0,
             seo: 0, 
             ads: 0
         })
-    //Contadores de páginas e idiomas
-    const [qtyPages, setQtyPages] = useState(0);
-    const [qtyLanguages, setQtyLanguages] = useState(0); 
-
-    const totalAdditional =  qtyPages * qtyLanguages * 30;
-
-    //Imorte total del presupuesto
-    const precio = isChecked.web + totalAdditional + isChecked.seo + isChecked.ads;    
     
+    //Contadores de páginas e idiomas 
+    const [qtyPages, setQtyPages] = useState(localStorage.getItem('pages') ? (localStorage.getItem('pages')) : 0);
+    const [qtyLanguages, setQtyLanguages] = useState(localStorage.getItem('languages') ? (localStorage.getItem('languages')) : 0); 
+    
+    let totalAdditional = qtyPages * qtyLanguages * 30;
+    
+    if(!isChecked.web){
+        totalAdditional = 0;
+    }
+    
+    //Almacenar el input del cliente en Local Storage
+    useEffect(()=>{
+        try{
+         setIsChecked(isChecked)
+         setQtyPages(qtyPages)
+         setQtyLanguages(qtyLanguages)
+         localStorage.setItem('pages', qtyPages)
+         localStorage.setItem('languages', qtyLanguages)
+         localStorage.setItem('checked', JSON.stringify(isChecked))
+        } catch (error){
+            console.error(error)
+        }
+    },[qtyPages, qtyLanguages, isChecked])
+
+    //Importe total del presupuesto
+    const totalBudget = isChecked.web + totalAdditional + isChecked.seo + isChecked.ads; 
+
     return(
     <div>
         <p>¿Qué quieres hacer?</p>
@@ -66,7 +89,7 @@ function Budget () {
                                 type="number"
                                 name="qtyLanguages"
                                 style={{border:'none', width:'3rem'}}
-                                value={qtyLanguages}
+                                value={(qtyLanguages)}
                                 onChange={(e)=>setQtyLanguages(e.target.value)}
                                 />
                                 <Button name="lessLanguages" onClick={()=>setQtyLanguages(qtyLanguages > 0 ? qtyLanguages - 1: qtyLanguages)}>-</Button>
@@ -106,8 +129,9 @@ function Budget () {
                 </label>
             </div>
         </div>
-        <p>Precio: {precio} €</p>
+        <p>Precio: {totalBudget} €</p>
     </div>  
+    
     )
 }
 
